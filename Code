@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Calculator</title>
+</head>
+<body>
+    <h1>Advanced PHP Calculator</h1>
+
+    <!-- Input Form for Calculator -->
+    <form method="POST" action="">
+        <label for="input1">First Number:</label>
+        <input type="number" step="any" name="input1" required><br><br>
+
+        <label for="input2">Second Number (if needed):</label>
+        <input type="number" step="any" name="input2"><br><br>
+
+        <label for="operation">Choose Operation:</label>
+        <select name="operation" required>
+            <option value="add">Add</option>
+            <option value="subtract">Subtract</option>
+            <option value="multiply">Multiply</option>
+            <option value="divide">Divide</option>
+            <option value="power">Power</option>
+            <option value="percent">Percentage</option>
+            <option value="sqrt">Square Root (First Number)</option>
+            <option value="log">Logarithm (First Number)</option>
+        </select><br><br>
+
+        <input type="submit" value="Compute">
+    </form>
+
+    <?php
+    // Processing the form data upon submission
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $input1 = isset($_POST['input1']) ? (float)$_POST['input1'] : 0;
+        $input2 = isset($_POST['input2']) ? (float)$_POST['input2'] : 0;
+        $selectedOp = $_POST['operation'];
+        $output = '';
+
+        // Perform the selected operation
+        switch ($selectedOp) {
+            case 'add':
+                $output = $input1 + $input2;
+                break;
+            case 'subtract':
+                $output = $input1 - $input2;
+                break;
+            case 'multiply':
+                $output = $input1 * $input2;
+                break;
+            case 'divide':
+                if ($input2 == 0) {
+                    $output = "Error: Division by zero!";
+                } else {
+                    $output = $input1 / $input2;
+                }
+                break;
+            case 'power':
+                $output = pow($input1, $input2);
+                break;
+            case 'percent':
+                $output = ($input1 * $input2) / 100;
+                break;
+            case 'sqrt':
+                $output = sqrt($input1);
+                break;
+            case 'log':
+                $output = log($input1);
+                break;
+            default:
+                $output = "Invalid operation";
+        }
+
+        // Display the result on the page
+        echo "<h2>Result: $output</h2>";
+    }
+    ?>
+</body>
+</html>
